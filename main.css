@@ -1,0 +1,59 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color:#3BC1AC;
+  background-image:
+  radial-gradient(circle at 100% 150%, #3BC1AC 24%, #42D2BB 25%, #42D2BB 28%, #3BC1AC 29%, #3BC1AC 36%, #42D2BB 36%, #42D2BB 40%, transparent 40%, transparent),
+  radial-gradient(circle at 0    150%, #3BC1AC 24%, #42D2BB 25%, #42D2BB 28%, #3BC1AC 29%, #3BC1AC 36%, #42D2BB 36%, #42D2BB 40%, transparent 40%, transparent),
+  radial-gradient(circle at 50%  100%, #42D2BB 10%, #3BC1AC 11%, #3BC1AC 23%, #42D2BB 24%, #42D2BB 30%, #3BC1AC 31%, #3BC1AC 43%, #42D2BB 44%, #42D2BB 50%, #3BC1AC 51%, #3BC1AC 63%, #42D2BB 64%, #42D2BB 71%, transparent 71%, transparent),
+  radial-gradient(circle at 100% 50%, #42D2BB 5%, #3BC1AC 6%, #3BC1AC 15%, #42D2BB 16%, #42D2BB 20%, #3BC1AC 21%, #3BC1AC 30%, #42D2BB 31%, #42D2BB 35%, #3BC1AC 36%, #3BC1AC 45%, #42D2BB 46%, #42D2BB 49%, transparent 50%, transparent),
+  radial-gradient(circle at 0    50%, #42D2BB 5%, #3BC1AC 6%, #3BC1AC 15%, #42D2BB 16%, #42D2BB 20%, #3BC1AC 21%, #3BC1AC 30%, #42D2BB 31%, #42D2BB 35%, #3BC1AC 36%, #3BC1AC 45%, #42D2BB 46%, #42D2BB 49%, transparent 50%, transparent);
+  background-size:100px 50px;
+}
+#app {
+    width: 270px;
+}
+.calculator {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #000;
+    padding: 3px;
+    background: #1e5799;
+    background: linear-gradient(to bottom, #1e5799 0%,#26e1f2 0%,#bcd8db 0%,#eaf6f7 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#eaf6f7',GradientType=0 );
+}
+.calcWindow {
+    width: 254px;
+    height: 35px;
+    background: #fff;
+    padding: 5px;
+    margin: 2px;
+    border: 1px solid rgb(146, 146, 146);
+    text-align: end;
+}
+.currentResult {
+    margin-bottom: 3px;
+    color: grey;
+}
+button {
+    width: 50px;
+    height: 30px;
+    margin: 2px;
+    cursor: pointer;
+}
+.buttonsRow {
+    position: relative;
+}
+.btnZero {
+    width: 104px;
+}
+.btnEqual {
+    height: 64px;
+    position: absolute;
+}
