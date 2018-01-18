@@ -46,6 +46,7 @@ button {
     height: 30px;
     margin: 2px;
     cursor: pointer;
+    z-index: 2;
 }
 .buttonsRow {
     position: relative;
