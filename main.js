@@ -5,67 +5,114 @@ class Main extends React.Component {
         super();
         this.state = {
             number: "",
+            secondNumber: "",
             currentResult: "",
             operator: ""
         }
     }
 
     addNumber (e) {
-        let newNumber = this.state.number + e.target.value;
+        let newNumber = this.state.operator ? this.state.secondNumber : this.state.number;
+        newNumber += e.target.value;
+        
+        if (this.state.operator) {
+            this.setState ({
+                secondNumber: newNumber
+            });
+            return;
+        }
+
         this.setState ({
            number: newNumber
         })
     }
 
     dotsHunter (e) {
-        if (this.state.number.indexOf('.') > -1) {
+        let numberValue = this.state.operator ? this.state.secondNumber : this.state.number
+        if (numberValue.indexOf('.') > -1) {
             return;
         }
-        this.setState ({
-            number: this.state.number + e.target.value
+        const numberKey = this.state.operator ? 'secondNumber' : 'number';
+        numberValue = numberValue || '0';
+        this.setState({
+            [numberKey]: numberValue + e.target.value
         })
+        
+        
+    }
+
+    clear () {
+        this.setState({
+            currentResult: '',
+            number: '',
+            secondNumber: '',
+            operator: ''
+        }) 
     }
 
     processOperator (e) {
-        let result;
-        this.setState ({
-            operator: e.target.name
+        this.setState({
+            operator: '',
+            secondNumber: ''
         })
-        switch (e.target.name) {
+        const result = this.calculate(e.target.name)
+        this.setState({
+            currentResult: result,
+            number: result
+        })
+    }
+
+    calcThroughEqual (e) { 
+        if (!this.state.secondNumber) {
+            return
+        }
+        let result = this.calculate(this.state.operator);
+        this.setState({
+            currentResult: result,
+            number: result
+        })
+   }
+
+    countOperator (e) {
+        this.setState({
+            operator: e.target.name,
+            secondNumber: '',
+            currentResult: ''
+        })
+        if (!this.state.secondNumber || this.state.operator !== e.target.name) {
+            return
+        }
+        let result = this.calculate(this.state.operator);
+        this.setState({
+            number: result
+        })
+    }
+    calculate (operator) {
+        let result;
+        switch (operator) {
+            case 'sum':
+                result = (+this.state.number + +this.state.secondNumber);
+                break;
+            case 'difference':
+                result = (+this.state.number - +this.state.secondNumber);
+                break;
+            case 'multiplication':
+                result = (+this.state.number * +this.state.secondNumber);
+                break;
+            case 'division':
+                result = (+this.state.number / +this.state.secondNumber);
+                break;
             case 'sqrt':
                 result = Math.sqrt(+this.state.number);
-                this.setState({
-                    currentResult: result,
-                    number: result
-                })
                 break;
             case 'pow':
                 result = Math.pow(+this.state.number, 2);
-                this.setState({
-                    currentResult: result,
-                    number: result
-                })
                 break;
             case 'fraction': 
                 result = 1 / +this.state.number;
-                this.setState({
-                    currentResult: result,
-                    number: result
-                })
                 break;
             case 'backspace':
                 result = this.state.number.slice(0, -1);
-                this.setState({
-                    currentResult: result,
-                    number: result
-                })    
-                break;
-            case 'C': 
-            case 'CE':
-                this.setState({
-                    currentResult: '',
-                    number: ''
-                }) 
                 break;
             case 'plusMinusBtn':
                 result = this.state.number;    
@@ -74,58 +121,6 @@ class Main extends React.Component {
                 } else {
                     result = '-' + result;
                 }
-                this.setState({
-                    currentResult: result,
-                    number: result
-                })
-                break;
-            default:
-                break;
-        }
-    }
-
-    calcThroughEqual (e) { 
-        if (!this.state.currentResult) {
-            return
-        }
-        let result = this.calculate();
-        this.setState({
-            number: '',
-            currentResult: result
-        })
-   }
-
-    countOperator (e) {
-        this.setState({
-            operator: e.target.name
-        })
-        if (!this.state.currentResult) {
-            this.setState({
-                currentResult: this.state.number,
-                number: ''
-            })
-            return
-        }
-        let result = this.calculate();
-        this.setState({
-            currentResult: result,
-            number: ''
-        })
-    }
-    calculate () {
-        let result;
-        switch (this.state.operator) {
-            case 'sum':
-                result = (+this.state.currentResult + +this.state.number);
-                break;
-            case 'difference':
-                result = (+this.state.currentResult - +this.state.number);
-                break;
-            case 'multiplication':
-                result = (+this.state.currentResult * +this.state.number);
-                break;
-            case 'division':
-                result = (+this.state.currentResult / +this.state.number);
                 break;
             default:
                 break;
@@ -138,16 +133,13 @@ class Main extends React.Component {
             <div className="calculator">
                 <div className="calcWindow">
                     <div className="result">
-                        {this.state.number || 0}
-                    </div>
-                    <div className="result">
-                        {this.state.currentResult || 0}
+                        {this.state.currentResult || this.state.secondNumber || this.state.number || 0}
                     </div>
                 </div>
                 <div className="buttonsRow">
                     <button name="backspace" onClick={this.processOperator.bind(this)}>&#8592;</button>
-                    <button name="CE" onClick={this.processOperator.bind(this)}>CE</button>
-                    <button name="C" onClick={this.processOperator.bind(this)}>C</button>
+                    <button name="CE" onClick={this.clear.bind(this)}>CE</button>
+                    <button name="C" onClick={this.clear.bind(this)}>C</button>
                     <button name="plusMinusBtn" onClick={this.processOperator.bind(this)}>&#177;</button>
                     <button name="sqrt" onClick={this.processOperator.bind(this)}>&#8730;</button>
                 </div>
